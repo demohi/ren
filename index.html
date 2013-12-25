@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app>
 <head>
-    <meta charset="utf-8">
-    <title>JavaScript Regular expressions GUI for Ren(Human)</title>
+<title>ACE in Action</title>
+<script src="VerbalExpressions.js"></script>
+<style type="text/css" media="screen">
+    #editor_left { 
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+    }
+    #editor_right { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50%;
+    } 
+    .ace_scrollbar {
+        display: none !important;
+    }   
+</style>
 </head>
 <body>
 
+<div id="editor_left" class="editor">
+</div>
+<div id="editor_right">
+</div>
+<script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor_left = ace.edit("editor_left");
+    editor_left.setTheme("ace/theme/monokai");
+    editor_left.getSession().setMode("ace/mode/javascript");
+    editor_left.setShowPrintMargin(false);
+    var editor_right = ace.edit("editor_right");
+    editor_right.setTheme("ace/theme/tomorrow");
+    editor_right.getSession().setMode("ace/mode/text");
+    editor_right.setShowPrintMargin(false);
+</script>
+<script>
+    editor_left.on("change",function(o){
+       try{
+           var test = eval(editor_left.getValue());
+           console.log(test);
+          editor_right.setValue(test.toString());
+       }
+       catch(err){
+           console.log(err);
+           editor_right.setValue("");
+       }
+    });
+</script>
 </body>
 </html>
